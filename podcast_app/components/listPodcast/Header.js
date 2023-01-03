@@ -2,9 +2,11 @@ import { Text, View, Pressable, StyleSheet, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
-function Header() {
+function Header(props) {
   return (
-    <View style={styles.container}>
+    <Pressable
+      style={[styles.container, props.isOpacity ? styles.opacity : null]}
+    >
       <View style={styles.containerHeader}>
         <Pressable style={styles.headerButton}>
           <AntDesign name="arrowleft" style={styles.headerButton} />
@@ -25,7 +27,7 @@ function Header() {
         <Pressable style={styles.circleButton}></Pressable>
         <Pressable style={styles.circleButton}></Pressable>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
   headerButton: {
     color: "white",
     fontSize: 20,
-    paddingTop: 10
+    paddingTop: 10,
   },
   containImage: {
     alignItems: "center",
@@ -65,6 +67,9 @@ const styles = StyleSheet.create({
     backgroundColor: "grey",
     borderRadius: 100,
     marginHorizontal: 2,
+  },
+  opacity: {
+    opacity: 0.1,
   },
 });
 

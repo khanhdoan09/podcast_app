@@ -1,8 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ListPodcast from "../screens/ListPodcastScreen";
-// import PlayPodcast from "../screens/PlayPodcastScreen";
-
+import podcastList from "../screens/PodcastListScreen";
+import podcastIntroduction from "../screens/PodcastIntroduction";
 const Stack = createNativeStackNavigator();
 function Navigator() {
   return (
@@ -12,8 +11,11 @@ function Navigator() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="ListPodcast" component={ListPodcast} />
-        {/* <Stack.Screen name="PlayPodCast" component={PlayPodcast} /> */}
+        <Stack.Screen name="podcastList" component={podcastList} />
+        {/* <Stack.Screen
+          name="podcastIntroduction"
+          component={podcastIntroduction}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

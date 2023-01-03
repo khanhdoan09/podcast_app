@@ -1,11 +1,13 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 function ItemPodCast(props) {
   const data = props.data;
   return (
     <View style={styles.container}>
-      <View style={styles.date}>
+      <Pressable style={styles.date} onPress={() => props.setShowModal(true)}>
         <Text style={styles.month}>
           {data?.date?.year != 2023 ? (
             <Text style={styles.month}>
@@ -21,11 +23,15 @@ function ItemPodCast(props) {
         {data?.date?.year == 2023 ? null : (
           <Text style={styles.year}>{data?.date?.year}</Text>
         )}
-      </View>
-      <Text style={styles.title}>{data?.title}</Text>
-      <Pressable>
-        <AntDesign name="downcircleo" size={24} color="purple" />
       </Pressable>
+      <View style={styles.right}>
+        <Pressable onPress={() => props.setShowModal(true)}>
+          <Text style={styles.title}>{data?.title}</Text>
+        </Pressable>
+        <Pressable>
+          <AntDesign name="downcircleo" size={24} color="purple" />
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   date: {
-    margin: 0,
+    marginLeft: 10,
     width: "10%",
   },
   month: {
@@ -51,12 +57,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  title: {
-    textAlignVertical: "center",
+  right: {
+    flexDirection: "row",
     borderBottomColor: "grey",
     borderBottomWidth: 1,
-    width: "80%",
-    height: "100%",
+    marginHorizontal: 10,
+    paddingVertical: 10,
+    width: "90%",
+    justifyContent: "space-between",
+  },
+  title: {
+    textAlignVertical: "center",
     marginHorizontal: 10,
     margin: 0,
     padding: 0,
@@ -70,6 +81,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
     justifyContent: "center",
     alignItems: "center",
+    textAlignVertical: "center",
   },
 });
 
