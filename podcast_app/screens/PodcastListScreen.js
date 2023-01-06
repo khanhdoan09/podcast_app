@@ -12,12 +12,12 @@ import Header from "../components/listPodcast/Header";
 import ItemPodCast from "../components/listPodcast/ItemPodcast";
 import Subscribe from "../components/listPodcast/Subscribe";
 import { useState } from "react";
-import PodcastIntroduction from "./PodcastIntroduction";
+import Introduction from "../components/podcastIntroduction/introduction";
 function podcastList({ navigation }) {
   const data = [
     {
       date: { day: 2, month: "Th1", year: 2023 },
-      title: "Pope Francis esgkldglkng; leads tributes to Benedict XVI",
+      title: "Pope Francis leads tributes to Benedict XVI",
     },
     {
       date: { day: 31, month: "12", year: 2022 },
@@ -94,12 +94,17 @@ function podcastList({ navigation }) {
           <View style={styles.modalOverlay}></View>
         </TouchableWithoutFeedback>
         <View style={styles.modal}>
-          <PodcastIntroduction></PodcastIntroduction>
+          <Introduction></Introduction>
         </View>
       </Modal>
       <ScrollView>
         {data.map((e, i) => (
-          <ItemPodCast key={i} data={e} navigation={navigation} setShowModal={setShowModal}></ItemPodCast>
+          <ItemPodCast
+            key={i}
+            data={e}
+            navigation={navigation}
+            setShowModal={setShowModal}
+          ></ItemPodCast>
         ))}
       </ScrollView>
     </View>

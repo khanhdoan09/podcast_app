@@ -4,13 +4,22 @@ import { Entypo } from "@expo/vector-icons";
 
 function Header(props) {
   return (
-    <Pressable
-      style={[styles.container, props.isOpacity ? styles.opacity : null]}
+    <View
+      style={[
+        styles.container,
+        props.isOpacity ? styles.opacity : null,
+        props?.height ? { height: props?.height } : null,
+      ]}
     >
       <View style={styles.containerHeader}>
         <Pressable style={styles.headerButton}>
           <AntDesign name="arrowleft" style={styles.headerButton} />
         </Pressable>
+        {props?.title ? (
+          <View>
+            <Text>{props.title}</Text>
+          </View>
+        ) : null}
         <Pressable style={styles.headerButton}>
           <Entypo name="dots-three-vertical" style={styles.headerButton} />
         </Pressable>
@@ -27,7 +36,7 @@ function Header(props) {
         <Pressable style={styles.circleButton}></Pressable>
         <Pressable style={styles.circleButton}></Pressable>
       </View>
-    </Pressable>
+    </View>
   );
 }
 

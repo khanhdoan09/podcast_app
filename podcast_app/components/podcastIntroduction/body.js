@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-function introduction() {
+function Body() {
   return (
     <View style={styles.container}>
       <Text>Show Notes</Text>
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
 });
-export default introduction;
+export default Body;
