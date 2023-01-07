@@ -1,11 +1,11 @@
 import { View, StyleSheet } from "react-native";
 import Header from "./header";
 import Body from "./body";
-function Introduction() {
+function Introduction({ navigation }) {
   return (
     <View style={styles.container}>
       <Header></Header>
-      <Body></Body>
+      <Body navigation={navigation}></Body>
     </View>
   );
 }

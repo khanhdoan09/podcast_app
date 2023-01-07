@@ -13,7 +13,8 @@ import ItemPodCast from "../components/listPodcast/ItemPodcast";
 import Subscribe from "../components/listPodcast/Subscribe";
 import { useState } from "react";
 import Introduction from "../components/podcastIntroduction/introduction";
-function podcastList({ navigation }) {
+import ContinuePlay from "../components/listPodcast/ContinuePlay";
+function PodcastList({ navigation }) {
   const data = [
     {
       date: { day: 2, month: "Th1", year: 2023 },
@@ -81,10 +82,10 @@ function podcastList({ navigation }) {
     },
   ];
 
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <View>
+    <View style={styles.container}>
       <View>
         <Header isOpacity={showModal}></Header>
       </View>
@@ -94,7 +95,7 @@ function podcastList({ navigation }) {
           <View style={styles.modalOverlay}></View>
         </TouchableWithoutFeedback>
         <View style={styles.modal}>
-          <Introduction></Introduction>
+          <Introduction navigation={navigation}></Introduction>
         </View>
       </Modal>
       <ScrollView>
@@ -107,11 +108,18 @@ function podcastList({ navigation }) {
           ></ItemPodCast>
         ))}
       </ScrollView>
+      <View style={styles.continue_play}>
+        <ContinuePlay></ContinuePlay>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "relative",
+  },
   modalOverlay: {
     position: "absolute",
     height: "30%",
@@ -127,5 +135,11 @@ const styles = StyleSheet.create({
     padding: 0,
     backgroundColor: "white",
   },
+  continue_play: {
+    position: "absolute",
+    zIndex: 100,
+    width: "100%",
+    bottom: 0,
+  },
 });
-export default podcastList;
+export default PodcastList;

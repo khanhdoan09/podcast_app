@@ -1,13 +1,13 @@
 import { View } from "react-native";
 import Header from "../components/listPodcast/Header";
 import Play from "../components/playPodcast/Play";
-function playPodcast() {
+function PlayPodcast({ navigation }) {
   return (
     <View>
-      <Header height={"60%"} title={"text123"}></Header>
+      <Header height={"60%"} title={"oke"} navigation={navigation}></Header>
       <Play></Play>
     </View>
   );
 }
 
-export default playPodcast;
+export default PlayPodcast;

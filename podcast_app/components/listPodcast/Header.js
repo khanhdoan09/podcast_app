@@ -1,8 +1,11 @@
 import { Text, View, Pressable, StyleSheet, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import { NOT_FOUND } from "../../constants/image";
 
 function Header(props) {
+  const image = useSelector((state) => state?.image?.imageUrl);
   return (
     <View
       style={[
@@ -12,14 +15,13 @@ function Header(props) {
       ]}
     >
       <View style={styles.containerHeader}>
-        <Pressable style={styles.headerButton}>
+        <Pressable
+          style={styles.headerButton}
+          onPress={() => props.navigation.navigate("podcastList")}
+        >
           <AntDesign name="arrowleft" style={styles.headerButton} />
         </Pressable>
-        {props?.title ? (
-          <View>
-            <Text>{props.title}</Text>
-          </View>
-        ) : null}
+        {props?.title ? <Text style={styles.title}>{props.title}</Text> : null}
         <Pressable style={styles.headerButton}>
           <Entypo name="dots-three-vertical" style={styles.headerButton} />
         </Pressable>
@@ -27,7 +29,7 @@ function Header(props) {
       <View style={styles.containImage}>
         <Image
           source={{
-            uri: "https://i1.sndcdn.com/artworks-000435677199-gbr875-t500x500.jpg",
+            uri: image ? image : NOT_FOUND,
           }}
           style={styles.image}
         />
@@ -47,6 +49,7 @@ const styles = StyleSheet.create({
   containerHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 20,
     marginHorizontal: 20,
     backgroundColor: "red",
@@ -79,6 +82,11 @@ const styles = StyleSheet.create({
   },
   opacity: {
     opacity: 0.1,
+  },
+  title: {
+    color: "white",
+    fontSize: 20,
+    marginTop: 5,
   },
 });
 
