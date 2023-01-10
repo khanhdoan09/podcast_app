@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-function header() {
+function header(props) {
   return (
     <View style={styles.container}>
       <View style={styles.channel}>
-        <Text style={styles.name}>Global News Podcast</Text>
+        <Text style={styles.name}>{props?.channel}</Text>
         <View>
           <AntDesign
             name="star"
@@ -16,15 +16,15 @@ function header() {
         </View>
       </View>
       <View style={styles.text}>
-        <Text style={styles.title}>Ukrainian strike kills 63 Russians</Text>
-        <Text style={styles.date}>3 Th1</Text>
+        <Text style={styles.title}>{props?.title}</Text>
+        <Text style={styles.date}>{props?.date}</Text>
       </View>
       <View style={styles.download}>
         <Pressable>
           <AntDesign name="downcircleo" size={24} color="purple" />
         </Pressable>
         <Text style={styles.download_text}>Download</Text>
-        <Text style={styles.mb}>13 MB</Text>
+        <Text style={styles.mb}>{props?.size} MB</Text>
       </View>
     </View>
   );

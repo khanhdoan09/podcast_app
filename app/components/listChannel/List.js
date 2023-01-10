@@ -1,37 +1,32 @@
 import { View, Image, Text, Pressable, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
 import { setImageContinuePlay } from "../../redux/actions/imagePodcastAction";
+import { useDispatch } from "react-redux";
+import { NOT_FOUND } from "../../constants/image";
 
-function List({ navigation }) {
+function List({ navigation, data }) {
   const dispatch = useDispatch();
-  // dispatch(
-  //   setImageContinuePlay(
-  //     "https://i1.sndcdn.com/artworks-000435677199-gbr875-t500x500.jpg"
-  //   )
-  // );
+
   function navigateToListPodcast() {
-    dispatch(
-      setImageContinuePlay(
-        "https://i1.sndcdn.com/artworks-000435677199-gbr875-t500x500.jpg"
-      )
-    );
-    navigation.navigate("podcastList");
+    dispatch(setImageContinuePlay(data.avatar ?? NOT_FOUND));
+    navigation.navigate("podcastList", {channel: data._id});
   }
   return (
     <View style={styles.container}>
       <Pressable style={styles.channel} onPress={navigateToListPodcast}>
         <Image
           source={{
-            uri: "https://i1.sndcdn.com/artworks-000435677199-gbr875-t500x500.jpg",
+            uri: data.avatar ?? NOT_FOUND,
           }}
           style={styles.image}
         />
         <View style={styles.right}>
           <Pressable style={styles.text} onPress={navigateToListPodcast}>
-            <Text style={styles.name}>Global News Podcast</Text>
+            <Text style={styles.name}>
+              {data.title ?? "not found channel title"}
+            </Text>
             <Text style={styles.description}>
-              The day's top stories from BBC News
+              {data.description ?? "not found channel description"}
             </Text>
           </Pressable>
           <Pressable style={styles.button}>
@@ -51,8 +46,10 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   image: {
-    height: 70,
+    flex: 1,
     width: 70,
+    height: 70,
+    resizeMode: "contain",
   },
   right: {
     flexDirection: "row",

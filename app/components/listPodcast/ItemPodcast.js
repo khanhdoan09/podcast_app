@@ -1,32 +1,38 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 function ItemPodCast(props) {
-  const data = props.data;
+  const data = props?.data?.podcasts?.[0];
+  const year = data?.date?.substring(0, 4);
+  const month = data?.date?.substring(5, 7);
+  const day = data?.date?.substring(8, 10);
+  const currentYear = new Date().getFullYear();
+  function activeIntroduction() {
+    props.setShowModal(true);
+    props.setContentModal(props?.data);
+  }
   return (
     <View style={styles.container}>
-      <Pressable style={styles.date} onPress={() => props.setShowModal(true)}>
+      <Pressable style={styles.date} onPress={activeIntroduction}>
         <Text style={styles.month}>
-          {data?.date?.year != 2023 ? (
+          {year != currentYear ? (
             <Text style={styles.month}>
-              {data?.date?.day}/{data?.date?.month}
+              {day}/{month}
             </Text>
           ) : (
             <View style={styles.month}>
-              <Text>{data?.date?.day}</Text>
-              <Text>{data?.date?.month}</Text>
+              <Text>{day}</Text>
+              <Text>{month}</Text>
             </View>
           )}
         </Text>
-        {data?.date?.year == 2023 ? null : (
-          <Text style={styles.year}>{data?.date?.year}</Text>
-        )}
+        {year == currentYear ? null : <Text style={styles.year}>{year}</Text>}
       </Pressable>
       <View style={styles.right}>
-        <Pressable onPress={() => props.setShowModal(true)}>
-          <Text style={styles.title}>{data?.title}</Text>
+        <Pressable onPress={activeIntroduction}>
+          <Text style={styles.title}>
+            {data?.title ? data?.title : "not found title"}
+          </Text>
         </Pressable>
         <Pressable>
           <AntDesign name="downcircleo" size={24} color="purple" />

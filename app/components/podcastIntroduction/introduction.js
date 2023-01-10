@@ -1,11 +1,18 @@
 import { View, StyleSheet } from "react-native";
 import Header from "./header";
 import Body from "./body";
-function Introduction({ navigation }) {
+function Introduction({ navigation, content }) {
+  console.log(content);
+  const data = content.podcasts?.[0];
   return (
     <View style={styles.container}>
-      <Header></Header>
-      <Body navigation={navigation}></Body>
+      <Header
+        size={data?.size}
+        channel={content?.title}
+        title={data?.title}
+        date={data?.date?.substring(0, 10)}
+      ></Header>
+      <Body navigation={navigation} content={data?.description}></Body>
     </View>
   );
 }

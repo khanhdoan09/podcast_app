@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-function Body({ navigation }) {
+function Body({ navigation, content }) {
   return (
     <View style={styles.container}>
       <Pressable
@@ -16,13 +16,7 @@ function Body({ navigation }) {
         />
       </Pressable>
       <Text>Show Notes</Text>
-      <Text>
-        It's the highest number of deaths acknowledged by Moscow for a single
-        incident since the war began. Also: people turn out in large numbers to
-        pay their last respects to former Pope Benedict in the Vatican and the
-        footballer Pele in Brazil; and Price Harry says he wants his father King
-        Charles and his brother Price William back.
-      </Text>
+      <Text>{content}</Text>
     </View>
   );
 }

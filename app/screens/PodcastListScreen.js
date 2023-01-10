@@ -11,101 +11,61 @@ import {
 import Header from "../components/listPodcast/Header";
 import ItemPodCast from "../components/listPodcast/ItemPodcast";
 import Subscribe from "../components/listPodcast/Subscribe";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Introduction from "../components/podcastIntroduction/introduction";
 import ContinuePlay from "../components/listPodcast/ContinuePlay";
-function PodcastList({ navigation }) {
+import { GET_ALL_PODCAST_LIST_BY_CHANNEL } from "../constants/api";
+
+function PodcastList({ navigation, route }) {
   const goBack = navigation.goBack;
-  const data = [
-    {
-      date: { day: 2, month: "Th1", year: 2023 },
-      title: "Pope Francis leads tributes to Benedict XVI",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-    {
-      date: { day: 31, month: "12", year: 2022 },
-      title: "Tax return show Trump paid nothing in 2020",
-    },
-  ];
+  const channel = route.params.channel;
+  const [podcastList, setPodcastList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch(
+          GET_ALL_PODCAST_LIST_BY_CHANNEL + `?channel=${channel}`
+        );
+        if (response.status == 200) {
+          const data = await response.json();   
+          setPodcastList(data);
+        } else if (response.status == 204) {
+          console.log("data podcast list is empty");
+        } else if (response.status == 500) {
+          console.log("error in server");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   const [showModal, setShowModal] = useState(false);
+  const [contentModal, setContentModal] = useState({});
 
   return (
     <View style={styles.container}>
       <View>
         <Header isOpacity={showModal} goBack={goBack}></Header>
       </View>
-      <Subscribe numberEpisode={data.length}></Subscribe>
+      <Subscribe numberEpisode={podcastList?.[0]?.podcasts?.length ?? "không xác định"}></Subscribe>
       <Modal animationType={"slide"} transparent={true} visible={showModal}>
         <TouchableWithoutFeedback onPress={() => setShowModal(!showModal)}>
           <View style={styles.modalOverlay}></View>
         </TouchableWithoutFeedback>
         <View style={styles.modal}>
-          <Introduction navigation={navigation}></Introduction>
+          <Introduction navigation={navigation} content={contentModal}></Introduction>
         </View>
       </Modal>
       <ScrollView>
-        {data.map((e, i) => (
+        {podcastList?.map((e, i) => (
           <ItemPodCast
             key={i}
             data={e}
             navigation={navigation}
             setShowModal={setShowModal}
+            setContentModal={setContentModal}
           ></ItemPodCast>
         ))}
       </ScrollView>
@@ -131,6 +91,7 @@ const styles = StyleSheet.create({
     elevation: 3, // works on android
     position: "absolute",
     height: "70%",
+    width: "100%",
     bottom: 0,
     margin: 0,
     padding: 0,
