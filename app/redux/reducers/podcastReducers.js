@@ -2,8 +2,8 @@ import { PLAY_PODCAST } from "../../constants/actions";
 const initialState = {
   imageUrl:
     "https://bitsofco.de/content/images/2018/12/Screenshot-2018-12-16-at-21.06.29.png",
-  title: "undefined title",
-  channel: "undefined channel",
+  title: undefined,
+  channel: undefined,
 };
 
 const imagePodcastReducer = (state = initialState, action) => {

@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 function ItemPodCast(props) {
-  const data = props?.data?.podcasts?.[0];
+  const data = props?.data;
   const year = data?.date?.substring(0, 4);
   const month = data?.date?.substring(5, 7);
   const day = data?.date?.substring(8, 10);

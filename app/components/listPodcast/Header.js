@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { NOT_FOUND } from "../../constants/image";
 
 function Header(props) {
-  const image = useSelector((state) => state?.podcast?.avatar);
+  const image = useSelector((state) => state?.podcast?.avatar) ?? props.image;
   return (
     <View
       style={[

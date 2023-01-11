@@ -1,13 +1,32 @@
-import { View, Image, Pressable, StyleSheet, Text } from "react-native";
+import {
+  View,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  AsyncStorage,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { NOT_FOUND } from "../../constants/image";
+import { useEffect, useState } from "react";
 
 function ContinuePlay({ navigation }) {
-  const image = useSelector((state) => state?.podcast?.avatar);
-  const title = useSelector((state) => state?.podcast?.podcasts?.[0]?.title);
-  const channel = useSelector((state) => state?.podcast?.title);
-
+  const [podcast, setPodcast] = useState({});
+  // lấy podcast khi đang dùng app lần trước
+  useEffect(() => {
+    AsyncStorage.getItem("podcastContinuePlay").then((continuePlayPodcast) => {
+      setPodcast(JSON.parse(continuePlayPodcast));
+    });
+  }, []);
+  // state này là do khi đã chọn podcast mới nên
+  const image =
+    useSelector((state) => state?.podcast?.avatar) ?? podcast?.avatar;
+  const title =
+    useSelector((state) => state?.podcast?.content?.title) ??
+    podcast?.content?.title;
+  const channel =
+    useSelector((state) => state?.podcast?.channel) ?? podcast?.channel;
   function navigatePlayPodcastScreen() {
     navigation.navigate("playPodcast");
   }
@@ -56,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    paddingHorizontal: 9
+    paddingHorizontal: 9,
   },
   container_text: {
     justifyContent: "center",

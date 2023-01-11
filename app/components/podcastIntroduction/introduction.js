@@ -1,4 +1,4 @@
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, AsyncStorage } from "react-native";
 import Header from "./header";
 import Body from "./body";
 import { playPodcast } from "../../redux/actions/podcastAction";
@@ -6,19 +6,19 @@ import { useDispatch } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
 
 function Introduction({ navigation, content }) {
-  const data = content.podcasts?.[0];
   const dispatch = useDispatch();
   function setPlayPodcast() {
     dispatch(playPodcast(content));
-    navigation.navigate("playPodcast");
+    AsyncStorage.setItem("podcastContinuePlay", JSON.stringify(content))
+    navigation.navigate("playPodcast");    
   }
   return (
     <View style={styles.container}>
       <Header
-        size={data?.size}
-        channel={content?.title}
-        title={data?.title}
-        date={data?.date?.substring(0, 10)}
+        size={content?.content?.size}
+        channel={content?.content?.title}
+        title={content?.content?.title}
+        date={content?.content?.date?.substring(0, 10)}
       ></Header>
       <Pressable style={styles.container_play} onPress={setPlayPodcast}>
         <AntDesign
@@ -28,7 +28,7 @@ function Introduction({ navigation, content }) {
           color="black"
         />
       </Pressable>
-      <Body navigation={navigation} content={data?.description}></Body>
+      <Body navigation={navigation} content={content?.description}></Body>
     </View>
   );
 }

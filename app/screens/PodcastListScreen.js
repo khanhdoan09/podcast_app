@@ -4,6 +4,7 @@ import {
   Modal,
   TouchableWithoutFeedback,
   StyleSheet,
+  Text
 } from "react-native";
 import Header from "../components/listPodcast/Header";
 import ItemPodCast from "../components/listPodcast/ItemPodcast";
@@ -39,7 +40,7 @@ function PodcastList({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    navigation.addListener("focus", (payload) => {
+    navigation.addListener("focus", () => {
       setShowModal(false);
     });
   }, []);
@@ -50,7 +51,7 @@ function PodcastList({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View>
-        <Header isOpacity={showModal} goBack={goBack}></Header>
+        <Header isOpacity={showModal} goBack={goBack}></Header>       
       </View>
       <Subscribe
         numberEpisode={podcastList?.[0]?.podcasts?.length ?? "không xác định"}
@@ -62,12 +63,12 @@ function PodcastList({ navigation, route }) {
         <View style={styles.modal}>
           <Introduction
             navigation={navigation}
-            content={contentModal}
+            content={{content: contentModal, avatar: podcastList?.[0]?.avatar,  channel: podcastList?.[0]?.title}}
           ></Introduction>
         </View>
       </Modal>
       <ScrollView>
-        {podcastList?.map((e, i) => (
+        {podcastList?.[0]?.podcasts?.map((e, i) => (
           <ItemPodCast
             key={i}
             data={e}
