@@ -16,7 +16,7 @@ const getAllPodcastByChannel = async (req, res) => {
           as: "podcasts",
         },
       },
-      { $project: { "title": 1, "podcasts": 1 } },
+      { $project: { "title": 1, "avatar": 1, "podcasts": 1 } },
     ]).exec();
     if (data) {
       res.status(200).json(data);

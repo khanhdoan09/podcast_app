@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { NOT_FOUND } from "../../constants/image";
 
 function Header(props) {
-  const image = useSelector((state) => state?.image?.imageUrl);
+  const image = useSelector((state) => state?.podcast?.avatar);
   return (
     <View
       style={[
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   image: {
     height: 200,
     width: 200,
+    resizeMode: "contain",
   },
   containCircleButton: {
     justifyContent: "center",

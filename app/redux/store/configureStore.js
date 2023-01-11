@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from "redux";
-import imagePodcastReducer from "../reducers/imagePodcastReducers";
+import podcastReducer from "../reducers/podcastReducers";
 
-const rootReducer = combineReducers({ image: imagePodcastReducer });
+const rootReducer = combineReducers({ podcast: podcastReducer });
 
 const configureStore = () => {
   return createStore(rootReducer);

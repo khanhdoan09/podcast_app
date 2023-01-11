@@ -7,6 +7,7 @@ const ChannelSchema = new Schema({
   avatar: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
+  time: { type: String, required: true },
   podcasts: [{ type: Schema.Types.ObjectId, ref: "podcasts" }],
 });
 

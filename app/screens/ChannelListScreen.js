@@ -35,7 +35,7 @@ function ChannelList({ navigation }) {
       })}
 
       <View style={styles.continue_play}>
-        <ContinuePlay></ContinuePlay>
+        <ContinuePlay navigation={navigation}></ContinuePlay>
       </View>
     </View>
   );

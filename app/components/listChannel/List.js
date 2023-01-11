@@ -1,14 +1,9 @@
 import { View, Image, Text, Pressable, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { setImageContinuePlay } from "../../redux/actions/imagePodcastAction";
-import { useDispatch } from "react-redux";
 import { NOT_FOUND } from "../../constants/image";
 
 function List({ navigation, data }) {
-  const dispatch = useDispatch();
-
   function navigateToListPodcast() {
-    dispatch(setImageContinuePlay(data.avatar ?? NOT_FOUND));
     navigation.navigate("podcastList", {channel: data._id});
   }
   return (

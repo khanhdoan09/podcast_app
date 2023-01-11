@@ -1,12 +1,9 @@
 import {
   ScrollView,
-  Text,
   View,
   Modal,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   StyleSheet,
-  Pressable,
 } from "react-native";
 import Header from "../components/listPodcast/Header";
 import ItemPodCast from "../components/listPodcast/ItemPodcast";
@@ -28,7 +25,7 @@ function PodcastList({ navigation, route }) {
           GET_ALL_PODCAST_LIST_BY_CHANNEL + `?channel=${channel}`
         );
         if (response.status == 200) {
-          const data = await response.json();   
+          const data = await response.json();
           setPodcastList(data);
         } else if (response.status == 204) {
           console.log("data podcast list is empty");
@@ -41,6 +38,12 @@ function PodcastList({ navigation, route }) {
     })();
   }, []);
 
+  useEffect(() => {
+    navigation.addListener("focus", (payload) => {
+      setShowModal(false);
+    });
+  }, []);
+
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setContentModal] = useState({});
 
@@ -49,13 +52,18 @@ function PodcastList({ navigation, route }) {
       <View>
         <Header isOpacity={showModal} goBack={goBack}></Header>
       </View>
-      <Subscribe numberEpisode={podcastList?.[0]?.podcasts?.length ?? "không xác định"}></Subscribe>
+      <Subscribe
+        numberEpisode={podcastList?.[0]?.podcasts?.length ?? "không xác định"}
+      ></Subscribe>
       <Modal animationType={"slide"} transparent={true} visible={showModal}>
         <TouchableWithoutFeedback onPress={() => setShowModal(!showModal)}>
           <View style={styles.modalOverlay}></View>
         </TouchableWithoutFeedback>
         <View style={styles.modal}>
-          <Introduction navigation={navigation} content={contentModal}></Introduction>
+          <Introduction
+            navigation={navigation}
+            content={contentModal}
+          ></Introduction>
         </View>
       </Modal>
       <ScrollView>
@@ -70,7 +78,7 @@ function PodcastList({ navigation, route }) {
         ))}
       </ScrollView>
       <View style={styles.continue_play}>
-        <ContinuePlay></ContinuePlay>
+        <ContinuePlay navigation={navigation}></ContinuePlay>
       </View>
     </View>
   );

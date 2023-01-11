@@ -3,21 +3,35 @@ import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { NOT_FOUND } from "../../constants/image";
 
-function ContinuePlay() {
-  const image = useSelector((state) => state?.image?.imageUrl);
+function ContinuePlay({ navigation }) {
+  const image = useSelector((state) => state?.podcast?.avatar);
+  const title = useSelector((state) => state?.podcast?.podcasts?.[0]?.title);
+  const channel = useSelector((state) => state?.podcast?.title);
+
+  function navigatePlayPodcastScreen() {
+    navigation.navigate("playPodcast");
+  }
+
   return (
     <View style={styles.container}>
-      <Image
-        source={{
-          uri: image ? image : NOT_FOUND,
-        }}
-        style={styles.image}
-      />
+      <Pressable style={styles.left} onPress={navigatePlayPodcastScreen}>
+        <Image
+          source={{
+            uri: image ? image : NOT_FOUND,
+          }}
+          style={styles.image}
+        />
+      </Pressable>
       <View style={styles.right}>
-        <View style={styles.container_text}>
-          <Text style={styles.title}>US chaos as Kevin McCarthy</Text>
-          <Text style={styles.channel}>Global New Podcast</Text>
-        </View>
+        <Pressable
+          style={styles.container_text}
+          onPress={navigatePlayPodcastScreen}
+        >
+          <Text style={styles.title}>{title ?? "undefined podcast title"}</Text>
+          <Text style={styles.channel}>
+            {channel ?? "undefined podcast channel"}
+          </Text>
+        </Pressable>
         <Pressable style={styles.button}>
           <AntDesign style={styles.button_play} name="play" size={40} />
         </Pressable>
@@ -30,18 +44,19 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "maroon",
     flexDirection: "row",
-    alignContent: "center",
+    alignContent: "space-between",
   },
+  left: { flex: 1, width: 70, height: 70 },
   image: {
-    flex: 1,
-    width: 70,
-    height: 70,
+    width: "100%",
+    height: "100%",
     resizeMode: "contain",
   },
   right: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
+    paddingHorizontal: 9
   },
   container_text: {
     justifyContent: "center",

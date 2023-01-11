@@ -2,7 +2,7 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function Play() {
+function Play({time}) {
   return (
     <View style={styles.container}>
       <View style={styles.line}>
@@ -28,7 +28,7 @@ function Play() {
         <Pressable>
           <Text style={styles.speed}>1,0x</Text>
         </Pressable>
-        <Text style={styles.time}>00:13:25 / 00:18:27</Text>
+        <Text style={styles.time}>00:13:25 / {time}</Text>
       </View>
     </View>
   );
