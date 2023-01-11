@@ -4,7 +4,7 @@ import {
   Modal,
   TouchableWithoutFeedback,
   StyleSheet,
-  Text
+  Text,
 } from "react-native";
 import Header from "../components/listPodcast/Header";
 import ItemPodCast from "../components/listPodcast/ItemPodcast";
@@ -18,7 +18,7 @@ function PodcastList({ navigation, route }) {
   const goBack = navigation.goBack;
   const channel = route.params.channel;
   const [podcastList, setPodcastList] = useState([]);
-
+  const [image, setImage] = useState(undefined);
   useEffect(() => {
     (async () => {
       try {
@@ -28,6 +28,7 @@ function PodcastList({ navigation, route }) {
         if (response.status == 200) {
           const data = await response.json();
           setPodcastList(data);
+          setImage(data?.[0]?.avatar)
         } else if (response.status == 204) {
           console.log("data podcast list is empty");
         } else if (response.status == 500) {
@@ -51,7 +52,7 @@ function PodcastList({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View>
-        <Header isOpacity={showModal} goBack={goBack}></Header>       
+        <Header isOpacity={showModal} goBack={goBack} image={image}></Header>
       </View>
       <Subscribe
         numberEpisode={podcastList?.[0]?.podcasts?.length ?? "không xác định"}
@@ -63,7 +64,11 @@ function PodcastList({ navigation, route }) {
         <View style={styles.modal}>
           <Introduction
             navigation={navigation}
-            content={{content: contentModal, avatar: podcastList?.[0]?.avatar,  channel: podcastList?.[0]?.title}}
+            content={{
+              content: contentModal,
+              avatar: podcastList?.[0]?.avatar,
+              channel: podcastList?.[0]?.title,
+            }}
           ></Introduction>
         </View>
       </Modal>
