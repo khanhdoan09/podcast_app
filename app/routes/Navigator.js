@@ -14,10 +14,10 @@ function Navigator() {
           headerShown: false,
         }}
       >
-        {/* <Stack.Screen name="searchPodcast" component={SearchPodcast} /> */}
         <Stack.Screen name="channelList" component={ChannelList} />
         <Stack.Screen name="playPodcast" component={PlayPodcast} />
         <Stack.Screen name="podcastList" component={PodcastList} />
+        <Stack.Screen name="searchPodcast" component={SearchPodcast} />
       </Stack.Navigator>
     </NavigationContainer>
   );

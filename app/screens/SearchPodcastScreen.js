@@ -1,10 +1,10 @@
 import { View, Text } from "react-native";
 import Body from "../components/searchPodcast/Body";
 
-function SearchPodcastScreen() {
+function SearchPodcastScreen({navigation}) {
   return (
     <View>
-      <Body></Body>
+      <Body navigation={navigation}></Body>
     </View>
   );
 }

@@ -28,7 +28,7 @@ function Introduction({ navigation, content }) {
           color="black"
         />
       </Pressable>
-      <Body navigation={navigation} content={content?.description}></Body>
+      <Body navigation={navigation} content={content?.content?.description}></Body>
     </View>
   );
 }

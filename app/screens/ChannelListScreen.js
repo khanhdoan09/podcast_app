@@ -4,6 +4,9 @@ import { View, StyleSheet } from "react-native";
 import ContinuePlay from "../components/listPodcast/ContinuePlay";
 import { useEffect, useState } from "react";
 import { GET_ALL_CHANNEL_LIST } from "../constants/api";
+import axios from 'axios';
+
+
 
 function ChannelList({ navigation }) {
   const [channelList, setChannelList] = useState([]);
@@ -11,12 +14,11 @@ function ChannelList({ navigation }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(GET_ALL_CHANNEL_LIST);
+        const response = await axios(GET_ALL_CHANNEL_LIST);
         if (response.status == 204) {
           console.log("data channel list is empty");
-        } else if (response.status == 200) {
-          const data = await response.json();
-          setChannelList(data);
+        } else if (response.status == 200) {         
+          setChannelList(response.data);
         }
         else if (response.status == 500) {
           console.log("error in server");
@@ -29,7 +31,7 @@ function ChannelList({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Header></Header>
+      <Header navigation={navigation}></Header>
       {channelList.map((e, i) => {
         return <List key={i} data={e} navigation={navigation}></List>;
       })}

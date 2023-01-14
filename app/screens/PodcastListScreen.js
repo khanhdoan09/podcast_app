@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import Introduction from "../components/podcastIntroduction/introduction";
 import ContinuePlay from "../components/listPodcast/ContinuePlay";
 import { GET_ALL_PODCAST_LIST_BY_CHANNEL } from "../constants/api";
+import axios from 'axios';
 
 function PodcastList({ navigation, route }) {
   const goBack = navigation.goBack;
@@ -22,11 +23,11 @@ function PodcastList({ navigation, route }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(
+        const response = await axios(
           GET_ALL_PODCAST_LIST_BY_CHANNEL + `?channel=${channel}`
         );
         if (response.status == 200) {
-          const data = await response.json();
+          const data = response.data;
           setPodcastList(data);
           setImage(data?.[0]?.avatar)
         } else if (response.status == 204) {

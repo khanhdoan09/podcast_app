@@ -3,7 +3,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
-function Header() {
+function Header({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.left}>
@@ -13,7 +13,7 @@ function Header() {
         <Text style={styles.title}>Podcasts</Text>
       </View>
       <View style={styles.right}>
-        <Pressable style={styles.search}>
+        <Pressable style={styles.search} onPress={()=>navigation.navigate("searchPodcast")}>
           <Feather name="search" size={24} color="grey" />
         </Pressable>
         <Pressable>

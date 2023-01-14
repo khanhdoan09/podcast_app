@@ -1,8 +1,42 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Audio } from "expo-av";
+import { useState, useEffect } from "react";
 
-function Play({time}) {
+function Play({ time, linkAudio }) {
+  const [audioStatus, setAudioStatus] = useState(false);
+  const [sound, setSound] = useState(new Audio.Sound());
+  const [isLoadAudio, setIsLoadAudio] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (audioStatus) {
+        console.log(isLoadAudio);
+        if (!isLoadAudio) {
+          setIsLoadAudio(true);
+          await sound.loadAsync({
+            uri: "https://study4.com/media/tez_media1/sound/ets_toeic_2022_test_1_ets_2022_test01.mp3",
+          });
+          try {
+            await sound.playAsync();
+          } catch (e) {
+            console.log(e);
+          }
+        } else {
+          try {
+            sound.setStatusAsync({ shouldPlay: true });
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      } else {
+        await sound.pauseAsync();
+      }
+    })();
+  }, [audioStatus]);
+
   return (
     <View style={styles.container}>
       <View style={styles.line}>
@@ -13,8 +47,15 @@ function Play({time}) {
         <Pressable>
           <MaterialCommunityIcons name="rewind-30" size={40} color="white" />
         </Pressable>
-        <Pressable style={styles.button_play}>
-          <AntDesign name="playcircleo" size={70} color="white" />
+        <Pressable
+          style={styles.button_play}
+          onPress={() => setAudioStatus(!audioStatus)}
+        >
+          {audioStatus ? (
+            <FontAwesome5 name="pause-circle" size={70} color="white" />
+          ) : (
+            <AntDesign name="playcircleo" size={70} color="white" />
+          )}
         </Pressable>
         <Pressable>
           <MaterialCommunityIcons
@@ -43,7 +84,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 10,
     backgroundColor: "grey",
-    position: "relative"
+    position: "relative",
   },
   line_active: {
     width: "80%",

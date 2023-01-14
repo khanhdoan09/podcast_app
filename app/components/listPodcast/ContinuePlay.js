@@ -10,6 +10,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { NOT_FOUND } from "../../constants/image";
 import { useEffect, useState } from "react";
+import tw from "tailwind-react-native-classnames";
 
 function ContinuePlay({ navigation }) {
   const [podcast, setPodcast] = useState({});
@@ -33,7 +34,7 @@ function ContinuePlay({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.left} onPress={navigatePlayPodcastScreen}>
+      <Pressable style={tw`flex-1	h-16 w-16`} onPress={navigatePlayPodcastScreen}>
         <Image
           source={{
             uri: image ? image : NOT_FOUND,
@@ -41,18 +42,24 @@ function ContinuePlay({ navigation }) {
           style={styles.image}
         />
       </Pressable>
-      <View style={styles.right}>
+      <View style={tw`flex-row items-center justify-end	 px-1`}>
         <Pressable
-          style={styles.container_text}
+          style={tw`justify-center  mx-7`}
           onPress={navigatePlayPodcastScreen}
         >
-          <Text style={styles.title}>{title ?? "undefined podcast title"}</Text>
-          <Text style={styles.channel}>
+          <Text style={tw`text-white text-sm`}>
+            {title ?? "undefined podcast title"}
+          </Text>
+          <Text style={tw`text-gray-500 text-xs	`}>
             {channel ?? "undefined podcast channel"}
           </Text>
         </Pressable>
         <Pressable style={styles.button}>
-          <AntDesign style={styles.button_play} name="play" size={40} />
+          <AntDesign
+            style={tw`bg-black rounded-full text-white`}
+            name="play"
+            size={40}
+          />
         </Pressable>
       </View>
     </View>
@@ -65,35 +72,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "space-between",
   },
-  left: { flex: 1, width: 70, height: 70 },
   image: {
     width: "100%",
     height: "100%",
     resizeMode: "contain",
-  },
-  right: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingHorizontal: 9,
-  },
-  container_text: {
-    justifyContent: "center",
-    alignContent: "center",
-    marginHorizontal: 20,
-  },
-  title: {
-    color: "white",
-    fontSize: 15,
-  },
-  channel: {
-    color: "grey",
-    fontSize: 10,
-  },
-  button_play: {
-    backgroundColor: "black",
-    color: "white",
-    borderRadius: 100,
   },
 });
 

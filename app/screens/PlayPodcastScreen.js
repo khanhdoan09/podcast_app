@@ -19,6 +19,7 @@ function PlayPodcast({ navigation }) {
   const time =
     useSelector((state) => state?.podcast?.content?.time) ??
     podcast?.content?.time;
+  const linkAudio = useSelector((state) => state?.podcast?.content?.link);
   const goBack = navigation.goBack;
   return (
     <View>
@@ -28,7 +29,7 @@ function PlayPodcast({ navigation }) {
         image={image}
         goBack={goBack}
       ></Header>
-      <Play time={time}></Play>
+      <Play time={time} linkAudio={linkAudio}></Play>
     </View>
   );
 }
