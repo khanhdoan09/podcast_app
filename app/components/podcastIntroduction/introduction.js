@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   button_play: {
     backgroundColor: "white",
     borderRadius: 100,
-    color: "red",
+    color: "rgb(178,178,178)",
   },
 });
 export default Introduction;

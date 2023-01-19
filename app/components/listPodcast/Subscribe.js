@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "space-between",
     width: "100%",
-    borderBottomColor: "grey",
+    borderBottomColor: "rgb(155,155,155)",
     borderBottomWidth: 1,
   },
   containerEpisode: {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   button: {
-    backgroundColor: "purple",
+    backgroundColor: "rgb(125,78,158)",
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 15,

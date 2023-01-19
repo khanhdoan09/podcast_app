@@ -14,19 +14,19 @@ function ItemPodCast(props) {
   return (
     <View style={styles.container}>
       <Pressable style={styles.date} onPress={activeIntroduction}>
-        <Text style={styles.month}>
+        <Text style={[styles.month, styles.date_color]}>
           {year != currentYear ? (
             <Text style={styles.month}>
               {day}/{month}
             </Text>
           ) : (
-            <View style={styles.month}>
-              <Text>{day}</Text>
-              <Text>{month}</Text>
+            <View style={[styles.month, styles.date_color]}>
+              <Text style={styles.date_color}>{day}</Text>
+              <Text style={styles.date_color}>{month}</Text>
             </View>
           )}
         </Text>
-        {year == currentYear ? null : <Text style={styles.year}>{year}</Text>}
+        {year == currentYear ? null : <Text style={[styles.year, styles.date_color]}>{year}</Text>}
       </Pressable>
       <View style={styles.right}>
         <Pressable onPress={activeIntroduction}>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   right: {
     flexDirection: "row",
-    borderBottomColor: "grey",
+    borderBottomColor: "rgb(155,155,155)",
     borderBottomWidth: 1,
     marginHorizontal: 10,
     paddingVertical: 10,
@@ -82,13 +82,16 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     color: "grey",
-    backgroundColor: "grey",
+    backgroundColor: "rgb(155,155,155)",
     borderRadius: 100,
     marginHorizontal: 2,
     justifyContent: "center",
     alignItems: "center",
     textAlignVertical: "center",
   },
+  date_color: {
+    color: "rgb(155,155,155)"
+  }
 });
 
 export default ItemPodCast;

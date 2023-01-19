@@ -6,11 +6,8 @@ import { useEffect, useState } from "react";
 import { GET_ALL_CHANNEL_LIST } from "../constants/api";
 import axios from 'axios';
 
-
-
 function ChannelList({ navigation }) {
   const [channelList, setChannelList] = useState([]);
-
   useEffect(() => {
     (async () => {
       try {

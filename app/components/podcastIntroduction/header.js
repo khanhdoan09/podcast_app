@@ -32,7 +32,7 @@ function header(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "red",
+    backgroundColor: "rgb(166, 166, 166)",
     paddingTop: 20,
   },
   channel: {
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   download: {
     flexDirection: "row",
-    backgroundColor: "brown",
+    backgroundColor: "rgb(136,136,136)",
     paddingVertical: 10,
     paddingHorizontal: 10,
   },

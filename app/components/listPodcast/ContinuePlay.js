@@ -42,7 +42,7 @@ function ContinuePlay({ navigation }) {
           style={styles.image}
         />
       </Pressable>
-      <View style={tw`flex-row items-center justify-end	 px-1`}>
+      <View style={tw`flex-row items-center justify-end	px-1`}>
         <Pressable
           style={tw`justify-center  mx-7`}
           onPress={navigatePlayPodcastScreen}
@@ -55,11 +55,7 @@ function ContinuePlay({ navigation }) {
           </Text>
         </Pressable>
         <Pressable style={styles.button}>
-          <AntDesign
-            style={tw`bg-black rounded-full text-white`}
-            name="play"
-            size={40}
-          />
+        <AntDesign name="caretright" size={20} style={tw`bg-transparent border border-white border-2 rounded-full text-white p-2 text-center flex items-center`} />         
         </Pressable>
       </View>
     </View>
@@ -68,7 +64,7 @@ function ContinuePlay({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "maroon",
+    backgroundColor: "rgb(77, 77, 77)	",
     flexDirection: "row",
     alignContent: "space-between",
   },

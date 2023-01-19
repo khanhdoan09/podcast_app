@@ -128,13 +128,13 @@ function Play({ time, linkAudio }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "maroon",
+    backgroundColor: "rgb(128, 128, 128)",
     height: "40%",
   },
   line: {
     width: "100%",
     height: 10,
-    backgroundColor: "grey",
+    backgroundColor: "rgb(230, 230, 230)",
   },
   line_active: {
     height: 10,

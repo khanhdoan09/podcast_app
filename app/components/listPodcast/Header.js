@@ -41,7 +41,7 @@ function Header(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "red",
+    backgroundColor: "rgb(171,171,171)",
   },
   containerHeader: {
     flexDirection: "row",
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
     marginHorizontal: 20,
-    backgroundColor: "red",
+    backgroundColor: "rgb(171,171,171)",
   },
   headerButton: {
     color: "white",
