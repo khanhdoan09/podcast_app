@@ -7,12 +7,15 @@ import Header from "../components/listChannel/Header";
 import tw from "tailwind-react-native-classnames";
 import ContinuePlay from "../components/listPodcast/ContinuePlay";
 import { useEffect, useState } from "react";
-import { GET_ALL_CATEGORY, GET_ALL_CHANNEL_LIST_BY_CATEGORY } from "../constants/api";
+import {
+  GET_ALL_CATEGORY,
+  GET_ALL_CHANNEL_LIST_BY_CATEGORY,
+} from "../constants/api";
 import axios from "axios";
 import React from "react";
 
 function CategoryList({ navigation }) {
-  const [categoryList, setCategoryList] = useState({});
+  const [categoryList, setCategoryList] = useState(undefined);
   useEffect(() => {
     (async () => {
       try {
@@ -50,28 +53,35 @@ function CategoryList({ navigation }) {
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
       <ScrollView>
-        {categoryList?.map((e, i) => {
-          const icon = e?.icon?.element;
-          const nameIcon = e?.icon?.name;
-          return (
-            <Pressable
-              key={i}
-              style={tw`flex-row items-center pl-4 `}
-              onPress={() => getAllChannelByCategory(e.type)}
-            >
-              {icon == "FontAwesome5" ? (
-                <FontAwesome5 name={nameIcon} size={24} color="grey" />
-              ) : "MaterialIcons" ? (
-                <MaterialIcons name={nameIcon} size={24} color="grey" />
-              ) : "FontAwesome" ? (
-                <FontAwesome name={nameIcon} size={24} color="grey" />
-              ) : "AntDesign" ? (
-                <AntDesign name={nameIcon} size={24} color="grey" />
-              ) : null}
-              <Text style={tw`mx-4 border-b-2  w-full py-3`}>{e.type}</Text>
-            </Pressable>
-          );
-        })}
+        {categoryList
+          ? categoryList?.map((e, i) => {
+              const icon = e?.icon?.element;
+              const nameIcon = e?.icon?.name;
+              return (
+                <Pressable
+                  key={i}
+                  style={tw`flex-row items-center pl-4 `}
+                  onPress={() => {
+                    navigation.navigate("channelList", {
+                      getChannelBy: "category",
+                      params: e.type,
+                    });
+                  }}
+                >
+                  {icon == "FontAwesome5" ? (
+                    <FontAwesome5 name={nameIcon} size={24} color="grey" />
+                  ) : "MaterialIcons" ? (
+                    <MaterialIcons name={nameIcon} size={24} color="grey" />
+                  ) : "FontAwesome" ? (
+                    <FontAwesome name={nameIcon} size={24} color="grey" />
+                  ) : "AntDesign" ? (
+                    <AntDesign name={nameIcon} size={24} color="grey" />
+                  ) : null}
+                  <Text style={tw`mx-4 border-b-2  w-full py-3`}>{e.type}</Text>
+                </Pressable>
+              );
+            })
+          : null}
       </ScrollView>
       <View style={styles.continue_play}>
         <ContinuePlay navigation={navigation}></ContinuePlay>

@@ -11,7 +11,9 @@ function Play({ time, linkAudio }) {
   const [isLoadAudio, setIsLoadAudio] = useState(false);
   const [positionTargetInProgressBar, setPositionTargetInProgressBar] =
     useState(0);
-  const [idInterval, setIdInterval] = useState(undefined);
+  const [idIntervalProgressBar, setIntervalProgressBar] = useState(undefined);
+  const [currentTimePlay, setCurrentTimePlay] = useState(undefined);
+  const [currentSpeed, setCurrentSpeed] = useState(1);
   const [readyToLoadAudio, setReadyToLoadAudio] = useState(false);
 
   useEffect(() => {
@@ -36,7 +38,7 @@ function Play({ time, linkAudio }) {
           if (!isLoadAudio) {
             setIsLoadAudio(true);
             await sound.loadAsync({
-              uri: "https://study4.com/media/tez_media1/sound/ets_toeic_2022_test_1_ets_2022_test01.mp3",
+              uri: linkAudio,
             });
             await sound.playAsync();
           } else {
@@ -47,7 +49,7 @@ function Play({ time, linkAudio }) {
           if (readyToLoadAudio) {
             const status = await sound?.getStatusAsync();
             if (status.isLoaded) {
-              clearInterval(idInterval);
+              clearInterval(idIntervalProgressBar);
               await sound.pauseAsync();
             }
           }
@@ -59,14 +61,14 @@ function Play({ time, linkAudio }) {
   }, [audioStatus]);
 
   async function reduceTime() {
-    clearInterval(idInterval);
+    clearInterval(idIntervalProgressBar);
     const statusTime = await sound.getStatusAsync();
     sound.playFromPositionAsync(statusTime.positionMillis - 30000);
     runProgressBar();
   }
 
   async function plusTime() {
-    clearInterval(idInterval);
+    clearInterval(idIntervalProgressBar);
     const statusTime = await sound.getStatusAsync();
     sound.playFromPositionAsync(statusTime.positionMillis + 30000);
     runProgressBar();
@@ -78,8 +80,51 @@ function Play({ time, linkAudio }) {
       const currentTime =
         (statusTime.positionMillis / statusTime.durationMillis) * 100;
       setPositionTargetInProgressBar(currentTime);
+      setCurrentTimePlay(convertMsToTime(statusTime.positionMillis));
     }, 1000);
-    setIdInterval(id);
+    setIntervalProgressBar(id);
+  }
+
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, "0");
+  }
+
+  function convertMsToTime(milliseconds) {
+    let seconds = Math.floor(milliseconds / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+
+    seconds = seconds % 60;
+    minutes = minutes % 60;
+    hours = hours % 24;
+
+    return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}:${padTo2Digits(
+      seconds
+    )}`;
+  }
+
+  async function speedUp() {  
+    switch (currentSpeed) {
+      case 1:
+        setCurrentSpeed(1.5);
+        sound.setRateAsync(1.5, true);
+        break;
+      case 1.5:
+        setCurrentSpeed(2);
+        sound.setRateAsync(2, true);
+        break;  
+      case 2:
+        setCurrentSpeed(0.5);
+        sound.setRateAsync(0.5, true);
+        break;
+      case 0.5:
+        setCurrentSpeed(1);
+        sound.setRateAsync(1, true);
+        break;     
+      default:
+        setCurrentSpeed(1);
+        sound.setRateAsync(1, true);
+    }
   }
 
   return (
@@ -117,10 +162,12 @@ function Play({ time, linkAudio }) {
         </Pressable>
       </View>
       <View style={styles.container_time}>
-        <Pressable>
-          <Text style={styles.speed}>1,0x</Text>
+        <Pressable onPress={speedUp}>
+          <Text style={styles.speed}>{currentSpeed}x</Text>
         </Pressable>
-        <Text style={styles.time}>00:13:25 / {time}</Text>
+        <Text style={styles.time}>
+          {currentTimePlay || "00:00:00"} / {time}
+        </Text>
       </View>
     </View>
   );

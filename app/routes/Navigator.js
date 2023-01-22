@@ -15,8 +15,11 @@ function Navigator() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="categoryList" component={CategoryList} />
-        <Stack.Screen name="channelList" component={ChannelList} />
+        <Stack.Screen name="channelList" component={ChannelList} initialParams={  {
+                        getChannelBy: "channel",
+                        params: "default"
+                      }} />
+        <Stack.Screen name="categoryList" component={CategoryList} /> 
         <Stack.Screen name="playPodcast" component={PlayPodcast} />
         <Stack.Screen name="podcastList" component={PodcastList} />
         <Stack.Screen name="searchPodcast" component={SearchPodcast} />

@@ -1,7 +1,7 @@
 import { TextInput, View, StyleSheet, Pressable, Text } from "react-native";
 import Item from "./Item";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { GET_ALL_CHANNEL_LIST_BY_NAME } from "../../constants/api";
 
@@ -18,22 +18,7 @@ const color = [
 
 function Body({ navigation }) {
   const [searchName, setSearchName] = useState("");
-  async function submitSearch(e) {
-    try {
-      const response = await axios(GET_ALL_CHANNEL_LIST_BY_NAME, {
-        params: { name: searchName },
-      });
-      if (response.status == 204) {
-        console.log("data channel list is empty");
-      } else if (response.status == 200) {
-        console.log(response.data);
-      } else if (response.status == 500) {
-        console.log("error in server");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
   return (
     <View>
       <View style={styles.form}>
@@ -44,8 +29,13 @@ function Body({ navigation }) {
           style={styles.input}
           placeholder="Search"
           placeholderStyle={{ fontSize: 40 }}
-          onSubmitEditing={submitSearch}
           onChangeText={(text) => setSearchName(text)}
+          onSubmitEditing={() => {
+            navigation.navigate("channelList", {
+              getChannelBy: "search",
+              params: searchName,
+            });
+          }}
         ></TextInput>
       </View>
       <View style={styles.history}>

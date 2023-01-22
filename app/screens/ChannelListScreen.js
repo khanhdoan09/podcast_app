@@ -3,33 +3,45 @@ import List from "../components/listChannel/List";
 import { View, StyleSheet } from "react-native";
 import ContinuePlay from "../components/listPodcast/ContinuePlay";
 import { useEffect, useState } from "react";
-import { GET_ALL_CHANNEL_LIST } from "../constants/api";
-import axios from 'axios';
+import {
+  GET_ALL_CHANNEL_LIST,
+  GET_ALL_CHANNEL_LIST_BY_CATEGORY,
+  GET_ALL_CHANNEL_LIST_BY_NAME,
+} from "../constants/api";
+import axios from "axios";
 
-function ChannelList({ navigation }) {
+function ChannelList({ navigation, route }) {
+  const { getChannelBy, params } = route.params;
   const [channelList, setChannelList] = useState([]);
   useEffect(() => {
     (async () => {
-      try {
-        const response = await axios(GET_ALL_CHANNEL_LIST);
+      try {        
+        const response = await axios(
+          getChannelBy === "channel"
+            ? GET_ALL_CHANNEL_LIST
+              : getChannelBy === "category"
+              ? GET_ALL_CHANNEL_LIST_BY_CATEGORY + "?category=" + params
+            : GET_ALL_CHANNEL_LIST_BY_NAME + "?name=" + params
+        );
         if (response.status == 204) {
           console.log("data channel list is empty");
-        } else if (response.status == 200) {         
-          setChannelList(response.data);
-        }
-        else if (response.status == 500) {
+        } else if (response.status == 200) {
+          setChannelList(
+            response?.data
+          );
+        } else if (response.status == 500) {
           console.log("error in server");
         }
       } catch (error) {
         console.log(error);
       }
     })();
-  }, []);
+  }, [params]);
 
   return (
     <View style={styles.container}>
       <Header navigation={navigation}></Header>
-      {channelList.map((e, i) => {
+      {channelList?.map((e, i) => {
         return <List key={i} data={e} navigation={navigation}></List>;
       })}
 
