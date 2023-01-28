@@ -10,6 +10,7 @@ import SignIn from "../screens/SignInScreen";
 import RestorePassword from "../screens/RestorePasswordScreen";
 import ResetPassword from "../screens/ResetPassword";
 import CheckMail from "../screens/CheckMailScreen";
+import Navigation from "../screens/NavigationScreen";
 
 const Stack = createNativeStackNavigator();
 function Navigator() {
@@ -20,11 +21,6 @@ function Navigator() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="signIn" component={SignIn} />
-        <Stack.Screen name="signUp" component={SignUp} />
-        <Stack.Screen name="checkMail" component={CheckMail} />
-        <Stack.Screen name="resetPassword" component={ResetPassword} />
-        <Stack.Screen name="restorePassword" component={RestorePassword} />
         <Stack.Screen
           name="channelList"
           component={ChannelList}
@@ -33,10 +29,16 @@ function Navigator() {
             params: "default",
           }}
         />
+        <Stack.Screen name="navigation" component={Navigation} />
         <Stack.Screen name="categoryList" component={CategoryList} />
         <Stack.Screen name="playPodcast" component={PlayPodcast} />
         <Stack.Screen name="podcastList" component={PodcastList} />
         <Stack.Screen name="searchPodcast" component={SearchPodcast} />
+        <Stack.Screen name="signIn" component={SignIn} />
+        <Stack.Screen name="signUp" component={SignUp} />
+        <Stack.Screen name="checkMail" component={CheckMail} />
+        <Stack.Screen name="resetPassword" component={ResetPassword} />
+        <Stack.Screen name="restorePassword" component={RestorePassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,10 +8,14 @@ import {
 } from "react-native";
 import { NOT_FOUND } from "../constants/image";
 import tw from "tailwind-react-native-classnames";
-import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
+import { Formik } from "formik";
+import * as yup from "yup";
+import { PUT_SIGN_IN } from "../constants/api";
+import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
 const image =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Seb%27s.svg/1200px-Seb%27s.svg.png";
@@ -19,12 +23,6 @@ function SignIn({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true);
   return (
     <View style={tw`flex-1 items-center	justify-center bg-white relative`}>
-      <Pressable
-        style={tw`absolute top-5 left-5`}
-        onPress={() => navigation.goBack()}
-      >
-        <Ionicons name="arrow-back-sharp" size={30} color="grey" />
-      </Pressable>
       <Image
         source={{
           uri: image ? image : NOT_FOUND,
@@ -33,32 +31,94 @@ function SignIn({ navigation }) {
       />
       <Text style={styles.title}>WELCOME</Text>
       <View style={tw`items-center justify-center w-full`}>
-        <TextInput style={styles.input} placeholder="Email"></TextInput>
-        <View>
-          <TextInput
-            secureTextEntry={hidePassword ? true : false}
-            style={styles.input}
-            placeholder="Password"
-          ></TextInput>
-          <Pressable
-            style={tw`absolute top-7 right-2`}
-            onPress={() => {
-              setHidePassword(!hidePassword);
-            }}
-          >
-            {hidePassword ? (
-              <AntDesign name="eyeo" size={24} color="grey" />
-            ) : (
-              <Feather name="eye-off" size={24} color="grey" />
-            )}
-          </Pressable>
-        </View>
-        <Pressable style={tw`items-end w-full px-4`} onPress={()=>navigation.navigate("restorePassword")}>
-          <Text style={styles.grey}>Forgot your password?</Text>
-        </Pressable>
-        <Pressable style={[styles.input, styles.submit]}>
-          <Text style={tw`text-white`}>SIGN IN</Text>
-        </Pressable>
+        <Formik
+          initialValues={{
+            email: "xyz@gmail.com",
+            password: "password",
+          }}
+          onSubmit={async (values) => {
+            try {
+              const response = await axios.put(PUT_SIGN_IN, {
+                email: values?.email,
+                password: values?.password,
+              });
+              if (response.status === 200) {
+                const token = response?.data?.message;
+                console.log(token.accessToken);
+                await SecureStore.setItemAsync(
+                  "secureAccessToken",
+                  token.accessToken
+                );
+                // await SecureStore.setItemAsync(
+                //   "secureRefreshToken",
+                //   token.refreshToken
+                // );
+              }
+            } catch (err) {
+              console.log(err);
+            }
+          }}
+          validationSchema={yup.object().shape({
+            email: yup.string().email().required("Email is required"),
+            password: yup.string().required("Password is required"),
+          })}
+        >
+          {({ handleChange, handleSubmit, touched, errors, values }) => (
+            <View>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                onChangeText={handleChange("email")}
+                value={values.email}
+              ></TextInput>
+              {touched.email && errors.email && (
+                <Text style={{ fontSize: 12, color: "#FF0D10" }}>
+                  {errors.email}
+                </Text>
+              )}
+              <View>
+                <TextInput
+                  secureTextEntry={hidePassword ? true : false}
+                  style={styles.input}
+                  placeholder="Password"
+                  onChangeText={handleChange("password")}
+                  value={values.password}
+                ></TextInput>
+                <Pressable
+                  style={tw`absolute top-7 right-2`}
+                  onPress={() => {
+                    setHidePassword(!hidePassword);
+                  }}
+                >
+                  {hidePassword ? (
+                    <AntDesign name="eyeo" size={24} color="grey" />
+                  ) : (
+                    <Feather name="eye-off" size={24} color="grey" />
+                  )}
+                </Pressable>
+                {touched.password && errors.password && (
+                  <Text style={{ fontSize: 12, color: "#FF0D10" }}>
+                    {errors.password}
+                  </Text>
+                )}
+              </View>
+              <View>
+                <Pressable
+                  style={tw`items-end w-full px-4 `}
+                  onPress={() => navigation.navigate("restorePassword")}
+                >
+                  <Text style={styles.grey}>Forgot your password?</Text>
+                </Pressable>
+              </View>
+              <Pressable
+                style={[styles.input, styles.submit]}
+                onPress={handleSubmit}
+              >
+                <Text style={tw`text-white`}>SIGN IN</Text>
+              </Pressable>
+            </View>
+          )}
+        </Formik>
         <View style={tw`flex-row items-center`}>
           <Text style={styles.grey}>Don't have an account?</Text>
           <Pressable onPress={() => navigation.navigate("signUp")}>

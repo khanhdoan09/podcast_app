@@ -9,7 +9,7 @@ function Header({ navigation }) {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.left}>
-          <Pressable>
+          <Pressable onPress={()=>navigation.navigate("navigation")}>
             <AntDesign name="bars" size={24} color="grey" />
           </Pressable>
           <Text style={styles.title}>Podcasts</Text>
